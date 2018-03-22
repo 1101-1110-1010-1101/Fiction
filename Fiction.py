@@ -2,6 +2,7 @@ import vk_api
 import time
 import random
 import datetime
+import markovify
 
 api_token = '86d5839b2eddcd58817430ed61803372e322e5dd5fb28196bcd7c2bad9a59a58249241b62453f91fea5dc'
 print('Fiction initialized')
@@ -9,6 +10,7 @@ vk = vk_api.VkApi(token=api_token)
 print('Connecting...')
 vk._auth_token()
 print('Connected successfully!\nFiction is running')
+
 
 values = {'out':0, 'count':100, 'time_offset':10}
 response = vk.method('messages.get', values)
@@ -29,6 +31,14 @@ def fetch_user(user_id):
 def write_msg(user_id, s):
     vk.method('messages.send', {'user_id': user_id, 'message': s})
 
+
+def get_markov_chain():
+    with open('C:\\Users\\User\\Desktop\\ti_uzhe_vozbudilsja__potter.txt', encoding='utf8') as f:
+        text = f.read()
+    return markovify.Text(text)
+
+
+text = get_markov_chain()
 
 while True:
     response = vk.method('messages.get', values)
@@ -55,6 +65,9 @@ while True:
                     else:
                         write_msg(item['user_id'], answers[r])
                         break
+        elif response['items'][0]['body'] == 'Дядя Федя!':
+            crime_and_punishment = str(text.make_sentence()) + " " + str(text.make_sentence())
+            write_msg(item['user_id'], crime_and_punishment)
         else:
             write_msg(item['user_id'], 'Я не понимаю тебя')
 
