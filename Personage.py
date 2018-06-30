@@ -106,6 +106,7 @@ gender = ['women', 'man', 'other']
 habits = {'good':['Лидер', '...'], 'bad':['Что-то плохое'], 'neutral':['Что-то нейтральное'], 'fears':['Страхи']}
 type = ['Лишний человек']
 
+
 class Personage(object):
 
     def __init__(self, name):
@@ -113,4 +114,7 @@ class Personage(object):
         self.age = random.randrange(12, 75, 1)
         self.gender = gender[random.randrange(0, 3, 1)]
         self.personalities = {'good':{}, 'bad':{}, 'neutral':{}, 'fears':{}}
+        pass
+
+
 
